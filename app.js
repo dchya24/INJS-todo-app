@@ -4,15 +4,19 @@ const app  = express();
 
 const db = require('./app/config/db');
 
+const todosRouter = require("./app/routes/todos");
+
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  db.query("SELECT * FROM tb_todos")
-  .then((result) => {
-    res.send(result.rows);
-  })
-})
+app.use("/", todosRouter);
+
+// app.get("/", (req, res) => {
+//   db.query("SELECT * FROM tb_todos")
+//   .then((result) => {
+//     res.send(result.rows);
+//   })
+// })
 
 const PORT = process.env.PORT || 3000;
 
