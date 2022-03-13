@@ -57,3 +57,18 @@ exports.updateTodo = async(req, res, next) => {
   }
   
 }
+
+exports.deleteTodo = async(req, res, next) => {
+  try{
+    const id = parseInt(req.params.todoId);
+    await db.query({
+      text: "DELETE FROM tb_todos WHERE id=$1",
+      values: [id]
+    });
+
+    res.send({ message: "Berhasil menghapus todo!"});
+  }catch(err){
+    next(err);
+  }
+  
+}
