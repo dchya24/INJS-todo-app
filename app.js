@@ -18,6 +18,10 @@ app.use("/", todosRouter);
 //   })
 // })
 
+app.use((error, req, res, next) => {
+  res.status(500).json({ message: error.message });
+})
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

@@ -34,3 +34,26 @@ exports.createTodo = async (req, res) => {
     .json({ message: err.message});
   }
 }
+
+exports.updateTodo = async(req, res, next) => {
+  try{
+    const id = parseInt(req.params.todoId);
+    const oldData = await db.query({
+      text: "SELECT * FROM tb_todos WHERE id=$1", 
+      values: [id]
+    });
+
+    await db.query({
+      text: "UPDATE tb_todos SET checked=$1 WHERE id=$2",
+      values: [
+        !oldData.rows[0].checked,
+        id
+      ]
+    });
+
+    res.send({ message: "Berhasil mengupdate todo!"});
+  }catch(err){
+    next(err);
+  }
+  
+}
